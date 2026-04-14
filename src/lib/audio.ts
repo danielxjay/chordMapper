@@ -1,5 +1,17 @@
 let audioContext: AudioContext | null = null;
 
+function requestPlaybackAudioSession() {
+  if (typeof navigator === 'undefined' || !navigator.audioSession) {
+    return;
+  }
+
+  try {
+    navigator.audioSession.type = 'playback';
+  } catch {
+    // Ignore unsupported or rejected audio-session hints and continue with playback.
+  }
+}
+
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') {
     return null;
@@ -23,6 +35,8 @@ function midiToFrequency(midiNote: number): number {
 }
 
 export async function playChord(midiNotes: number[]): Promise<void> {
+  requestPlaybackAudioSession();
+
   const context = getAudioContext();
 
   if (!context) {
@@ -65,4 +79,3 @@ export async function playChord(midiNotes: number[]): Promise<void> {
     overtone.stop(noteEnd);
   });
 }
-

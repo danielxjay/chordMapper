@@ -38,3 +38,13 @@ export type GuitarVoicing = {
   rootString: 4 | 5 | 6;
   source: 'curated' | 'generated';
 };
+
+declare global {
+  interface Navigator {
+    audioSession?: {
+      type: 'auto' | 'playback' | 'transient' | 'transient-solo' | 'ambient' | 'play-and-record';
+    };
+  }
+}
+
+export {};
