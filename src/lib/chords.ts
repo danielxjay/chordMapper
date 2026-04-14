@@ -1,4 +1,4 @@
-import { CHORD_TYPES, GUITAR_TEMPLATES } from '../data/music';
+import { CHORD_TYPES, GUITAR_CURATED_VOICINGS, GUITAR_TEMPLATES } from '../data/music';
 import type { ChordType, GuitarTemplate, GuitarVoicing, LetterName, RootNote } from '../types';
 
 const LETTER_SEQUENCE: LetterName[] = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -77,27 +77,52 @@ function scoreVoicing(strings: Array<number | null>): number {
   return min * 3 + span * 4 - openCount;
 }
 
-export function buildGuitarVoicing(root: RootNote, chordType: ChordType): GuitarVoicing {
+function dedupeVoicings(voicings: GuitarVoicing[]): GuitarVoicing[] {
+  const seen = new Set<string>();
+
+  return voicings.filter((voicing) => {
+    const signature = voicing.strings.map((fret) => (fret === null ? 'x' : fret)).join('-');
+
+    if (seen.has(signature)) {
+      return false;
+    }
+
+    seen.add(signature);
+    return true;
+  });
+}
+
+function buildGeneratedGuitarVoicings(root: RootNote, chordType: ChordType): GuitarVoicing[] {
   const templates = GUITAR_TEMPLATES[chordType.id];
-  const voicedOptions = templates.map((template) => {
+
+  return templates
+    .map((template) => {
     const rootFret = getTemplateRootFret(root, template);
     const strings = template.frets.map((fret) => (fret === null ? null : rootFret + fret));
 
     return {
+      id: `${root.id}-${template.id}`,
       label: template.label,
       rootString: template.rootString,
       strings,
+      source: 'generated' as const,
       score: scoreVoicing(strings),
     };
-  });
+    })
+    .sort((left, right) => left.score - right.score)
+    .map(({ score, ...voicing }) => voicing);
+}
 
-  const best = voicedOptions.sort((left, right) => left.score - right.score)[0];
+export function buildGuitarVoicings(root: RootNote, chordType: ChordType): GuitarVoicing[] {
+  const curatedKey = `${root.id}:${chordType.id}`;
+  const curatedVoicings = GUITAR_CURATED_VOICINGS[curatedKey] ?? [];
+  const generatedVoicings = buildGeneratedGuitarVoicings(root, chordType);
 
-  return {
-    label: best.label,
-    rootString: best.rootString,
-    strings: best.strings,
-  };
+  return dedupeVoicings([...curatedVoicings, ...generatedVoicings]);
+}
+
+export function buildGuitarVoicing(root: RootNote, chordType: ChordType): GuitarVoicing {
+  return buildGuitarVoicings(root, chordType)[0];
 }
 
 export function getDiagramWindow(strings: Array<number | null>): { baseFret: number; fretCount: number } {
@@ -145,4 +170,3 @@ export function getDefaultChordType(): ChordType {
 export function findChordTypeById(chordTypeId: string): ChordType {
   return CHORD_TYPES.find((chordType) => chordType.id === chordTypeId) ?? getDefaultChordType();
 }
-

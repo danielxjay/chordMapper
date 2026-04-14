@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CHORD_TYPES, ROOT_NOTES } from './data/music';
-import { findChordTypeById, buildGuitarVoicing, buildPianoVoicing, spellChordNotes } from './lib/chords';
+import { findChordTypeById, buildGuitarVoicings, buildPianoVoicing, spellChordNotes } from './lib/chords';
 import { ChordDetail } from './components/ChordDetail';
 import { ChordTypeList } from './components/ChordTypeList';
 import { RootNotePicker } from './components/RootNotePicker';
@@ -9,9 +9,15 @@ export default function App() {
   const [selectedRootId, setSelectedRootId] = useState<string | null>(null);
   const [selectedChordTypeId, setSelectedChordTypeId] = useState(CHORD_TYPES[0].id);
   const [activeStep, setActiveStep] = useState<'root' | 'variation'>('root');
+  const [selectedGuitarVoicingIndex, setSelectedGuitarVoicingIndex] = useState(0);
 
   const selectedRoot = ROOT_NOTES.find((root) => root.id === selectedRootId) ?? null;
   const selectedChordType = findChordTypeById(selectedChordTypeId);
+  const guitarVoicings = selectedRoot ? buildGuitarVoicings(selectedRoot, selectedChordType) : [];
+
+  useEffect(() => {
+    setSelectedGuitarVoicingIndex(0);
+  }, [selectedRootId, selectedChordTypeId]);
 
   function handleRootSelect(rootId: string) {
     setSelectedRootId(rootId);
@@ -51,7 +57,19 @@ export default function App() {
             chordType={selectedChordType}
             root={selectedRoot}
             chordNotes={spellChordNotes(selectedRoot, selectedChordType)}
-            guitarVoicing={buildGuitarVoicing(selectedRoot, selectedChordType)}
+            guitarVoicing={guitarVoicings[selectedGuitarVoicingIndex] ?? guitarVoicings[0]}
+            guitarVoicingCount={guitarVoicings.length}
+            guitarVoicingIndex={selectedGuitarVoicingIndex}
+            onSelectPreviousGuitarVoicing={() =>
+              setSelectedGuitarVoicingIndex((currentIndex) =>
+                currentIndex === 0 ? guitarVoicings.length - 1 : currentIndex - 1,
+              )
+            }
+            onSelectNextGuitarVoicing={() =>
+              setSelectedGuitarVoicingIndex((currentIndex) =>
+                currentIndex === guitarVoicings.length - 1 ? 0 : currentIndex + 1,
+              )
+            }
             pianoVoicing={buildPianoVoicing(selectedRoot, selectedChordType)}
           />
         ) : (

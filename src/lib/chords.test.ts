@@ -1,6 +1,7 @@
 import { CHORD_TYPES, ROOT_NOTES } from '../data/music';
 import {
   buildGuitarVoicing,
+  buildGuitarVoicings,
   buildPianoVoicing,
   buildTabLines,
   getDiagramWindow,
@@ -31,25 +32,57 @@ describe('spellChordNotes', () => {
 });
 
 describe('buildGuitarVoicing', () => {
-  it('selects the lower-position A-shape voicing for C major', () => {
+  it('prefers the curated open voicing for C major', () => {
     const root = ROOT_NOTES.find((note) => note.id === 'c')!;
     const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
 
     expect(buildGuitarVoicing(root, chordType)).toEqual({
-      label: '5th-string root shape',
+      id: 'c-maj-open',
+      label: 'Open chord',
       rootString: 5,
-      strings: [null, 3, 5, 5, 5, 3],
+      source: 'curated',
+      strings: [null, 3, 2, 0, 1, 0],
     });
   });
 
-  it('selects the lower-position E-shape voicing for G major', () => {
+  it('prefers the curated open voicing for G major', () => {
     const root = ROOT_NOTES.find((note) => note.id === 'g')!;
     const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
 
     expect(buildGuitarVoicing(root, chordType)).toEqual({
-      label: '6th-string root shape',
+      id: 'g-maj-open',
+      label: 'Open chord',
       rootString: 6,
-      strings: [3, 5, 5, 4, 3, 3],
+      source: 'curated',
+      strings: [3, 2, 0, 0, 0, 3],
+    });
+  });
+});
+
+describe('buildGuitarVoicings', () => {
+  it('returns multiple voicings with curated options first', () => {
+    const root = ROOT_NOTES.find((note) => note.id === 'c')!;
+    const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
+    const voicings = buildGuitarVoicings(root, chordType);
+
+    expect(voicings.map((voicing) => voicing.id)).toEqual([
+      'c-maj-open',
+      'c-maj-barre',
+      'c-maj-e',
+    ]);
+  });
+
+  it('falls back to generated voicings when there is no curated override', () => {
+    const root = ROOT_NOTES.find((note) => note.id === 'bb')!;
+    const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
+    const voicings = buildGuitarVoicings(root, chordType);
+
+    expect(voicings).toHaveLength(2);
+    expect(voicings[0]).toMatchObject({
+      id: 'bb-maj-a',
+      label: '5th-string root shape',
+      source: 'generated',
+      strings: [null, 1, 3, 3, 3, 1],
     });
   });
 });
@@ -86,4 +119,3 @@ describe('diagram helpers', () => {
     ]);
   });
 });
-

@@ -29,4 +29,20 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: /pick a root note/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Gmin' })).toBeInTheDocument();
   });
+
+  it('lets the user browse multiple guitar voicings for the selected chord', async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'C' }));
+
+    expect(screen.getByText('Open chord')).toBeInTheDocument();
+    expect(screen.getByText('Voicing 1 of 3')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /next guitar voicing/i }));
+
+    expect(screen.getByText('Barre shape')).toBeInTheDocument();
+    expect(screen.getByText('Voicing 2 of 3')).toBeInTheDocument();
+  });
 });

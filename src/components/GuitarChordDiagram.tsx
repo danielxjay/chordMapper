@@ -4,9 +4,21 @@ type GuitarChordDiagramProps = {
   chordLabel: string;
   strings: Array<number | null>;
   voicingLabel: string;
+  voicingCount: number;
+  voicingIndex: number;
+  onPrevious: () => void;
+  onNext: () => void;
 };
 
-export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: GuitarChordDiagramProps) {
+export function GuitarChordDiagram({
+  chordLabel,
+  strings,
+  voicingLabel,
+  voicingCount,
+  voicingIndex,
+  onPrevious,
+  onNext,
+}: GuitarChordDiagramProps) {
   const { baseFret, fretCount } = getDiagramWindow(strings);
   const tabLines = buildTabLines(strings);
 
@@ -17,7 +29,22 @@ export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: Guitar
           <p className="eyebrow">Guitar</p>
           <h3>{chordLabel}</h3>
         </div>
-        <span className="tag">{voicingLabel}</span>
+        <div className="guitar-toolbar">
+          <span className="tag">{voicingLabel}</span>
+          {voicingCount > 1 ? (
+            <div className="guitar-toolbar__actions">
+              <span className="fine-print guitar-toolbar__count">
+                Voicing {voicingIndex + 1} of {voicingCount}
+              </span>
+              <button type="button" className="mini-button" onClick={onPrevious} aria-label="Previous guitar voicing">
+                Prev
+              </button>
+              <button type="button" className="mini-button" onClick={onNext} aria-label="Next guitar voicing">
+                Next
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       <div className="guitar-diagram">
@@ -60,7 +87,7 @@ export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: Guitar
           </div>
         </div>
 
-      <div className="guitar-diagram__labels">
+        <div className="guitar-diagram__labels">
           {['E', 'A', 'D', 'G', 'B', 'E'].map((label, index) => (
             <span key={`${label}-${index}`}>{label}</span>
           ))}

@@ -244,6 +244,25 @@ button {
   white-space: nowrap;
 }
 
+.guitar-toolbar {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: end;
+}
+
+.guitar-toolbar__actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.guitar-toolbar__count {
+  margin: 0;
+  white-space: nowrap;
+}
+
 .detail-block {
   display: grid;
   gap: 0.2rem;
@@ -275,6 +294,24 @@ button {
   padding: 0.65rem 1rem;
   color: var(--accent-deep);
   font-weight: 700;
+}
+
+.mini-button {
+  min-height: 2rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 251, 246, 0.9);
+  color: var(--accent-deep);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.mini-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(141, 61, 30, 0.3);
 }
 
 .guitar-diagram {

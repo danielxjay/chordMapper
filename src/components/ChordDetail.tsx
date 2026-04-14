@@ -10,6 +10,10 @@ type ChordDetailProps = {
   chordNotes: string[];
   pianoVoicing: number[];
   guitarVoicing: GuitarVoicing;
+  guitarVoicingCount: number;
+  guitarVoicingIndex: number;
+  onSelectPreviousGuitarVoicing: () => void;
+  onSelectNextGuitarVoicing: () => void;
 };
 
 export function ChordDetail({
@@ -18,6 +22,10 @@ export function ChordDetail({
   chordNotes,
   pianoVoicing,
   guitarVoicing,
+  guitarVoicingCount,
+  guitarVoicingIndex,
+  onSelectPreviousGuitarVoicing,
+  onSelectNextGuitarVoicing,
 }: ChordDetailProps) {
   const chordLabel = getChordLabel(root, chordType);
 
@@ -48,10 +56,13 @@ export function ChordDetail({
           chordLabel={chordLabel}
           strings={guitarVoicing.strings}
           voicingLabel={guitarVoicing.label}
+          voicingCount={guitarVoicingCount}
+          voicingIndex={guitarVoicingIndex}
+          onPrevious={onSelectPreviousGuitarVoicing}
+          onNext={onSelectNextGuitarVoicing}
         />
         <PianoKeyboardDiagram activeMidiNotes={pianoVoicing} noteLabels={chordNotes} />
       </div>
     </section>
   );
 }
-

@@ -1,4 +1,4 @@
-import type { ChordType, GuitarTemplate, RootNote } from '../types';
+import type { ChordType, GuitarTemplate, GuitarVoicing, RootNote } from '../types';
 
 export const ROOT_NOTES: RootNote[] = [
   { id: 'c', label: 'C', displayName: 'C', pitchClass: 0, letter: 'C', accidental: 0, preferFlats: false },
@@ -173,3 +173,76 @@ export const GUITAR_TEMPLATES: Record<string, GuitarTemplate[]> = {
   ],
 };
 
+export const GUITAR_CURATED_VOICINGS: Record<string, GuitarVoicing[]> = {
+  'a:7': [
+    { id: 'a-7-open', label: 'Open chord', rootString: 5, strings: [null, 0, 2, 0, 2, 0], source: 'curated' },
+  ],
+  'a:maj': [
+    { id: 'a-maj-open', label: 'Open chord', rootString: 5, strings: [null, 0, 2, 2, 2, 0], source: 'curated' },
+  ],
+  'a:min': [
+    { id: 'a-min-open', label: 'Open chord', rootString: 5, strings: [null, 0, 2, 2, 1, 0], source: 'curated' },
+  ],
+  'a:min7': [
+    { id: 'a-min7-open', label: 'Open chord', rootString: 5, strings: [null, 0, 2, 0, 1, 0], source: 'curated' },
+  ],
+  'a:sus2': [
+    { id: 'a-sus2-open', label: 'Open chord', rootString: 5, strings: [null, 0, 2, 2, 0, 0], source: 'curated' },
+  ],
+  'a:sus4': [
+    { id: 'a-sus4-open', label: 'Open chord', rootString: 5, strings: [null, 0, 2, 2, 3, 0], source: 'curated' },
+  ],
+  'c:maj': [
+    { id: 'c-maj-open', label: 'Open chord', rootString: 5, strings: [null, 3, 2, 0, 1, 0], source: 'curated' },
+    { id: 'c-maj-barre', label: 'Barre shape', rootString: 5, strings: [null, 3, 5, 5, 5, 3], source: 'curated' },
+  ],
+  'c:maj7': [
+    { id: 'c-maj7-open', label: 'Open chord', rootString: 5, strings: [null, 3, 2, 0, 0, 0], source: 'curated' },
+  ],
+  'c:add9': [
+    { id: 'c-add9-open', label: 'Open chord', rootString: 5, strings: [null, 3, 2, 0, 3, 0], source: 'curated' },
+  ],
+  'd:7': [
+    { id: 'd-7-open', label: 'Open chord', rootString: 4, strings: [null, null, 0, 2, 1, 2], source: 'curated' },
+  ],
+  'd:maj': [
+    { id: 'd-maj-open', label: 'Open chord', rootString: 4, strings: [null, null, 0, 2, 3, 2], source: 'curated' },
+  ],
+  'd:min': [
+    { id: 'd-min-open', label: 'Open chord', rootString: 4, strings: [null, null, 0, 2, 3, 1], source: 'curated' },
+  ],
+  'd:sus2': [
+    { id: 'd-sus2-open', label: 'Open chord', rootString: 4, strings: [null, null, 0, 2, 3, 0], source: 'curated' },
+  ],
+  'd:sus4': [
+    { id: 'd-sus4-open', label: 'Open chord', rootString: 4, strings: [null, null, 0, 2, 3, 3], source: 'curated' },
+  ],
+  'e:7': [
+    { id: 'e-7-open', label: 'Open chord', rootString: 6, strings: [0, 2, 0, 1, 0, 0], source: 'curated' },
+  ],
+  'e:maj': [
+    { id: 'e-maj-open', label: 'Open chord', rootString: 6, strings: [0, 2, 2, 1, 0, 0], source: 'curated' },
+  ],
+  'e:min': [
+    { id: 'e-min-open', label: 'Open chord', rootString: 6, strings: [0, 2, 2, 0, 0, 0], source: 'curated' },
+  ],
+  'e:min7': [
+    { id: 'e-min7-open', label: 'Open chord', rootString: 6, strings: [0, 2, 0, 0, 0, 0], source: 'curated' },
+  ],
+  'g:7': [
+    { id: 'g-7-open', label: 'Open chord', rootString: 6, strings: [3, 2, 0, 0, 0, 1], source: 'curated' },
+  ],
+  'g:add9': [
+    { id: 'g-add9-open', label: 'Open chord', rootString: 6, strings: [3, 2, 0, 2, 0, 3], source: 'curated' },
+  ],
+  'g:maj': [
+    { id: 'g-maj-open', label: 'Open chord', rootString: 6, strings: [3, 2, 0, 0, 0, 3], source: 'curated' },
+    { id: 'g-maj-full-open', label: 'Open chord alt', rootString: 6, strings: [3, 2, 0, 0, 3, 3], source: 'curated' },
+  ],
+  'g:sus2': [
+    { id: 'g-sus2-open', label: 'Open chord', rootString: 6, strings: [3, 0, 0, 0, 3, 3], source: 'curated' },
+  ],
+  'g:sus4': [
+    { id: 'g-sus4-open', label: 'Open chord', rootString: 6, strings: [3, 3, 0, 0, 1, 3], source: 'curated' },
+  ],
+};

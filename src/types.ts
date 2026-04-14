@@ -32,8 +32,9 @@ export type GuitarTemplate = {
 };
 
 export type GuitarVoicing = {
+  id: string;
   label: string;
   strings: Array<number | null>;
-  rootString: 5 | 6;
+  rootString: 4 | 5 | 6;
+  source: 'curated' | 'generated';
 };
-
