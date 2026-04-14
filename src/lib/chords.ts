@@ -2,6 +2,7 @@ import { CHORD_TYPES, GUITAR_CURATED_VOICINGS, GUITAR_TEMPLATES } from '../data/
 import type { ChordType, GuitarTemplate, GuitarVoicing, LetterName, RootNote } from '../types';
 
 const LETTER_SEQUENCE: LetterName[] = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+const WHITE_PITCH_CLASSES = [0, 2, 4, 5, 7, 9, 11];
 
 const NATURAL_PITCH_CLASS: Record<LetterName, number> = {
   C: 0,
@@ -155,8 +156,32 @@ export function buildPianoVoicing(root: RootNote, chordType: ChordType): number[
   return chordType.intervals.map((interval) => rootMidi + interval.semitones);
 }
 
-export function getKeyboardRange(): number[] {
-  return Array.from({ length: 27 }, (_, index) => 48 + index);
+function countWhiteKeys(range: number[]): number {
+  return range.filter((note) => WHITE_PITCH_CLASSES.includes(note % 12)).length;
+}
+
+export function getKeyboardRange(activeMidiNotes: number[]): number[] {
+  const lowestNote = Math.min(...activeMidiNotes);
+  const highestNote = Math.max(...activeMidiNotes);
+  let start = Math.max(36, lowestNote - 4);
+  let end = Math.min(84, highestNote + 7);
+
+  while (start > 36 && !WHITE_PITCH_CLASSES.includes(start % 12)) {
+    start -= 1;
+  }
+
+  while (end < 84 && !WHITE_PITCH_CLASSES.includes(end % 12)) {
+    end += 1;
+  }
+
+  let range = Array.from({ length: end - start + 1 }, (_, index) => start + index);
+
+  while (countWhiteKeys(range) < 10 && end < 84) {
+    end += 1;
+    range = Array.from({ length: end - start + 1 }, (_, index) => start + index);
+  }
+
+  return range;
 }
 
 export function formatIntervalSet(chordType: ChordType): string {

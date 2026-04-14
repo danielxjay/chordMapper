@@ -6,16 +6,9 @@ type PianoKeyboardDiagramProps = {
 };
 
 const WHITE_PITCH_CLASSES = new Set([0, 2, 4, 5, 7, 9, 11]);
-const BLACK_KEY_OFFSETS: Partial<Record<number, number>> = {
-  1: 0.7,
-  3: 1.7,
-  6: 3.7,
-  8: 4.7,
-  10: 5.7,
-};
 
 export function PianoKeyboardDiagram({ activeMidiNotes, noteLabels }: PianoKeyboardDiagramProps) {
-  const range = getKeyboardRange();
+  const range = getKeyboardRange(activeMidiNotes);
   const activeSet = new Set(activeMidiNotes);
   const whiteKeys = range.filter((note) => WHITE_PITCH_CLASSES.has(note % 12));
   const blackKeys = range
@@ -33,7 +26,10 @@ export function PianoKeyboardDiagram({ activeMidiNotes, noteLabels }: PianoKeybo
       </div>
 
       <div className="keyboard-shell">
-        <div className="keyboard keyboard--white">
+        <div
+          className="keyboard keyboard--white"
+          style={{ gridTemplateColumns: `repeat(${whiteKeys.length}, var(--white-key-width))` }}
+        >
           {whiteKeys.map((note) => (
             <div
               key={note}
@@ -41,9 +37,14 @@ export function PianoKeyboardDiagram({ activeMidiNotes, noteLabels }: PianoKeybo
             />
           ))}
         </div>
-        <div className="keyboard keyboard--black">
-          {blackKeys.map(({ midi, pitchClass }) => {
-            const whiteBefore = Math.floor((midi - 48) / 12) * 7 + (BLACK_KEY_OFFSETS[pitchClass] ?? 0);
+        <div
+          className="keyboard keyboard--black"
+          style={{ width: `calc(${whiteKeys.length} * var(--white-key-width))` }}
+        >
+          {blackKeys.map(({ midi }) => {
+            const whiteBefore = range.filter(
+              (note) => note < midi && WHITE_PITCH_CLASSES.has(note % 12),
+            ).length;
 
             return (
               <div
@@ -55,12 +56,6 @@ export function PianoKeyboardDiagram({ activeMidiNotes, noteLabels }: PianoKeybo
           })}
         </div>
       </div>
-
-      <div className="detail-block">
-        <p className="detail-label">Piano notes</p>
-        <p className="detail-value">{noteLabels.join(' • ')}</p>
-      </div>
     </section>
   );
 }
-

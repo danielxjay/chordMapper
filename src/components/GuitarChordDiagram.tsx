@@ -62,7 +62,7 @@ export function GuitarChordDiagram({
           ))}
         </div>
 
-        <div className="guitar-diagram__frame">
+        <div className={`guitar-diagram__frame ${baseFret > 1 ? 'guitar-diagram__frame--offset' : ''}`}>
           {baseFret > 1 ? <span className="guitar-diagram__base-fret">{baseFret}fr</span> : null}
           <div
             className="guitar-diagram__grid"
@@ -95,7 +95,6 @@ export function GuitarChordDiagram({
       </div>
 
       <div className="detail-block">
-        <p className="detail-label">Chord tab</p>
         <pre className="tab-panel">
           <code>{tabLines.join('\n')}</code>
         </pre>

@@ -21,23 +21,24 @@ export function ChordTypeList({
       <div className="section-heading">
         <div>
           <p className="eyebrow">Step 2</p>
-          <h2>Choose a chord variation</h2>
-          <p className="section-note">Root note: {root.label}</p>
+          <h2>Choose a variation</h2>
         </div>
-        <button type="button" className="ghost-button" onClick={onBack}>
-          Change note
-        </button>
+        <div className="section-actions">
+          <span className="tag">{root.label}</span>
+          <button type="button" className="ghost-button" onClick={onBack}>
+            Change note
+          </button>
+        </div>
       </div>
-      <div className="list-stack" role="list" aria-label={`${root.displayName} chord variations`}>
+      <div className="variation-grid" role="list" aria-label={`${root.displayName} chord variations`}>
         {chordTypes.map((chordType) => (
           <button
             key={chordType.id}
             type="button"
-            className={`list-card ${selectedChordTypeId === chordType.id ? 'list-card--active' : ''}`}
+            className={`variation-chip ${selectedChordTypeId === chordType.id ? 'variation-chip--active' : ''}`}
             onClick={() => onSelect(chordType.id)}
           >
-            <span className="list-card__title">{getChordLabel(root, chordType)}</span>
-            <span className="list-card__subtitle">{chordType.description}</span>
+            {getChordLabel(root, chordType)}
           </button>
         ))}
       </div>

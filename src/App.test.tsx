@@ -13,8 +13,8 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: 'G' }));
 
-    expect(screen.getByRole('heading', { name: /choose a chord variation/i })).toBeInTheDocument();
-    expect(screen.getByText('Root note: G')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /choose a variation/i })).toBeInTheDocument();
+    expect(screen.getAllByText('G').length).toBeGreaterThan(0);
     expect(screen.getByRole('button', { name: /^Gmaj\b/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Gmaj' })).toBeInTheDocument();
     expect(screen.getAllByText('G • B • D').length).toBeGreaterThan(0);
