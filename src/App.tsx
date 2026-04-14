@@ -22,7 +22,7 @@ export default function App() {
     <div className="app-shell">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Chord reference MVP</p>
+          <p className="eyebrow">Chord reference</p>
           <h1>chordMapper</h1>
         </div>
         <p className="page-header__lede">

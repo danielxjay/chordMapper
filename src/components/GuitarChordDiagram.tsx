@@ -8,7 +8,6 @@ type GuitarChordDiagramProps = {
 
 export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: GuitarChordDiagramProps) {
   const { baseFret, fretCount } = getDiagramWindow(strings);
-  const frettedStrings = strings.filter((fret): fret is number => fret !== null && fret > 0);
   const tabLines = buildTabLines(strings);
 
   return (
@@ -22,6 +21,12 @@ export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: Guitar
       </div>
 
       <div className="guitar-diagram">
+        {baseFret > 1 ? (
+          <p className="fine-print guitar-diagram__window-note">
+            Diagram shows frets {baseFret} to {baseFret + fretCount - 1}.
+          </p>
+        ) : null}
+
         <div className="guitar-diagram__top">
           {strings.map((fret, index) => (
             <span key={`marker-${index}`} className="guitar-diagram__marker">
@@ -55,18 +60,11 @@ export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: Guitar
           </div>
         </div>
 
-        <div className="guitar-diagram__labels">
+      <div className="guitar-diagram__labels">
           {['E', 'A', 'D', 'G', 'B', 'E'].map((label, index) => (
             <span key={`${label}-${index}`}>{label}</span>
           ))}
         </div>
-      </div>
-
-      <div className="detail-block">
-        <p className="detail-label">Frets</p>
-        <p className="detail-value">
-          {strings.map((fret) => (fret === null ? 'x' : fret)).join(' • ')}
-        </p>
       </div>
 
       <div className="detail-block">
@@ -75,10 +73,6 @@ export function GuitarChordDiagram({ chordLabel, strings, voicingLabel }: Guitar
           <code>{tabLines.join('\n')}</code>
         </pre>
       </div>
-
-      {frettedStrings.length === 0 ? null : (
-        <p className="fine-print">Playable diagram window: frets {baseFret} to {baseFret + fretCount - 1}.</p>
-      )}
     </section>
   );
 }

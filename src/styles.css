@@ -276,6 +276,10 @@ button {
   gap: 0.5rem;
 }
 
+.guitar-diagram__window-note {
+  margin: 0 0 0.15rem;
+}
+
 .guitar-diagram__top,
 .guitar-diagram__labels {
   display: grid;
