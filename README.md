@@ -1,6 +1,6 @@
-# chordMapper
+# Chord Map
 
-`chordMapper` is a static React app for browsing guitar and piano chord references.
+`Chord Map` is a static React app for browsing guitar and piano chord references.
 
 ## Current MVP
 

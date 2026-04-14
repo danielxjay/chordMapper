@@ -28,8 +28,7 @@ export default function App() {
     <div className="app-shell">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Chord reference</p>
-          <h1>chordMapper</h1>
+          <h1>Chord Map</h1>
         </div>
       </header>
 
