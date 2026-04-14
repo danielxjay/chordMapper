@@ -1,0 +1,148 @@
+import { CHORD_TYPES, GUITAR_TEMPLATES } from '../data/music';
+import type { ChordType, GuitarTemplate, GuitarVoicing, LetterName, RootNote } from '../types';
+
+const LETTER_SEQUENCE: LetterName[] = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+
+const NATURAL_PITCH_CLASS: Record<LetterName, number> = {
+  C: 0,
+  D: 2,
+  E: 4,
+  F: 5,
+  G: 7,
+  A: 9,
+  B: 11,
+};
+
+const SHARP_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const FLAT_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+const OPEN_STRING_PITCH_CLASS: Record<5 | 6, number> = {
+  5: 9,
+  6: 4,
+};
+
+function formatAccidental(accidental: number): string {
+  if (accidental === -1) {
+    return 'b';
+  }
+
+  if (accidental === 1) {
+    return '#';
+  }
+
+  return '';
+}
+
+function fallbackNoteName(pitchClass: number, preferFlats: boolean): string {
+  return preferFlats ? FLAT_NAMES[pitchClass] : SHARP_NAMES[pitchClass];
+}
+
+export function getChordLabel(root: RootNote, chordType: ChordType): string {
+  return `${root.displayName}${chordType.suffix}`;
+}
+
+export function spellChordNotes(root: RootNote, chordType: ChordType): string[] {
+  const rootLetterIndex = LETTER_SEQUENCE.indexOf(root.letter);
+
+  return chordType.intervals.map((interval) => {
+    const targetPitchClass = (root.pitchClass + interval.semitones) % 12;
+    const letterOffset = (interval.degree - 1) % 7;
+    const targetLetter = LETTER_SEQUENCE[(rootLetterIndex + letterOffset) % LETTER_SEQUENCE.length];
+    const naturalPitchClass = NATURAL_PITCH_CLASS[targetLetter];
+    let accidental = ((targetPitchClass - naturalPitchClass + 18) % 12) - 6;
+
+    if (accidental < -1 || accidental > 1) {
+      return fallbackNoteName(targetPitchClass, root.preferFlats);
+    }
+
+    if (targetLetter === root.letter && interval.degree === 1) {
+      accidental = root.accidental;
+    }
+
+    return `${targetLetter}${formatAccidental(accidental)}`;
+  });
+}
+
+function getTemplateRootFret(root: RootNote, template: GuitarTemplate): number {
+  return (root.pitchClass - OPEN_STRING_PITCH_CLASS[template.rootString] + 12) % 12;
+}
+
+function scoreVoicing(strings: Array<number | null>): number {
+  const fretted = strings.filter((fret): fret is number => fret !== null);
+  const positiveFrets = fretted.filter((fret) => fret > 0);
+  const min = positiveFrets.length > 0 ? Math.min(...positiveFrets) : 0;
+  const max = positiveFrets.length > 0 ? Math.max(...positiveFrets) : 0;
+  const span = max - min;
+  const openCount = fretted.filter((fret) => fret === 0).length;
+
+  return min * 3 + span * 4 - openCount;
+}
+
+export function buildGuitarVoicing(root: RootNote, chordType: ChordType): GuitarVoicing {
+  const templates = GUITAR_TEMPLATES[chordType.id];
+  const voicedOptions = templates.map((template) => {
+    const rootFret = getTemplateRootFret(root, template);
+    const strings = template.frets.map((fret) => (fret === null ? null : rootFret + fret));
+
+    return {
+      label: template.label,
+      rootString: template.rootString,
+      strings,
+      score: scoreVoicing(strings),
+    };
+  });
+
+  const best = voicedOptions.sort((left, right) => left.score - right.score)[0];
+
+  return {
+    label: best.label,
+    rootString: best.rootString,
+    strings: best.strings,
+  };
+}
+
+export function getDiagramWindow(strings: Array<number | null>): { baseFret: number; fretCount: number } {
+  const fretted = strings.filter((fret): fret is number => fret !== null && fret > 0);
+
+  if (fretted.length === 0) {
+    return { baseFret: 1, fretCount: 4 };
+  }
+
+  const minFret = Math.min(...fretted);
+  const maxFret = Math.max(...fretted);
+  const baseFret = minFret <= 3 ? 1 : minFret;
+  const fretCount = Math.max(4, maxFret - baseFret + 1);
+
+  return { baseFret, fretCount };
+}
+
+export function buildTabLines(strings: Array<number | null>): string[] {
+  const labels = ['e', 'B', 'G', 'D', 'A', 'E'];
+  const reversedStrings = [...strings].reverse();
+
+  return reversedStrings.map((fret, index) => {
+    const display = fret === null ? 'x' : fret.toString();
+    return `${labels[index]}|--${display.padStart(2, '-')}--`;
+  });
+}
+
+export function buildPianoVoicing(root: RootNote, chordType: ChordType): number[] {
+  const rootMidi = root.pitchClass <= 6 ? 60 + root.pitchClass : 48 + root.pitchClass;
+  return chordType.intervals.map((interval) => rootMidi + interval.semitones);
+}
+
+export function getKeyboardRange(): number[] {
+  return Array.from({ length: 27 }, (_, index) => 48 + index);
+}
+
+export function formatIntervalSet(chordType: ChordType): string {
+  return chordType.intervals.map((interval) => interval.label).join(' • ');
+}
+
+export function getDefaultChordType(): ChordType {
+  return CHORD_TYPES[0];
+}
+
+export function findChordTypeById(chordTypeId: string): ChordType {
+  return CHORD_TYPES.find((chordType) => chordType.id === chordTypeId) ?? getDefaultChordType();
+}
+
