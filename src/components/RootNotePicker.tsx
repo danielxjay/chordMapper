@@ -10,8 +10,11 @@ export function RootNotePicker({ roots, selectedRootId, onSelect }: RootNotePick
   return (
     <section className="panel">
       <div className="section-heading">
-        <p className="eyebrow">Step 1</p>
-        <h2>Pick a root note</h2>
+        <div>
+          <p className="eyebrow">Step 1</p>
+          <h2>Pick a root note</h2>
+          <p className="section-note section-note--mobile">Tap a note to load chord variations.</p>
+        </div>
       </div>
       <div className="chip-grid" role="list" aria-label="Root notes">
         {roots.map((root) => (

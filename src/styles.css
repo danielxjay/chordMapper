@@ -11,6 +11,7 @@
   --accent-soft: #f6d9c7;
   --shadow: 0 24px 60px rgba(93, 58, 28, 0.14);
   --white-key-width: clamp(1.15rem, 3.8vw, 2rem);
+  --app-gutter: 1rem;
   font-family: 'Trebuchet MS', 'Gill Sans', 'Segoe UI', sans-serif;
   color: var(--text);
   background:
@@ -38,9 +39,9 @@ button {
 }
 
 .app-shell {
-  width: min(1360px, calc(100vw - 2rem));
+  width: min(1360px, calc(100vw - (var(--app-gutter) * 2)));
   margin: 0 auto;
-  padding: 2rem 0 3rem;
+  padding: max(1rem, env(safe-area-inset-top)) 0 calc(3rem + env(safe-area-inset-bottom));
 }
 
 .page-header {
@@ -76,6 +77,13 @@ button {
   gap: 1.25rem;
 }
 
+.workspace > *,
+.control-column,
+.detail-layout,
+.instrument-grid {
+  min-width: 0;
+}
+
 .workspace--landing .control-column,
 .workspace--landing .panel,
 .workspace--landing .hero-card--empty {
@@ -94,6 +102,7 @@ button {
   border-radius: 1.4rem;
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+  min-width: 0;
 }
 
 .panel {
@@ -171,6 +180,10 @@ button {
   font-size: 0.94rem;
 }
 
+.section-note--mobile {
+  display: none;
+}
+
 .chip-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(5.2rem, 1fr));
@@ -212,6 +225,9 @@ button {
 .list-stack {
   display: grid;
   gap: 0.7rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .list-card {
@@ -219,6 +235,7 @@ button {
   gap: 0.3rem;
   padding: 0.9rem 1rem;
   text-align: left;
+  min-width: 0;
 }
 
 .list-card__title {
@@ -391,6 +408,7 @@ button {
   background: rgba(49, 36, 27, 0.94);
   color: #ffe7d5;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .keyboard-shell {
@@ -399,6 +417,7 @@ button {
   max-width: 100%;
   padding-top: 0.25rem;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .keyboard {
@@ -471,14 +490,53 @@ button {
   }
 }
 
+@media (max-width: 939px) {
+  :root {
+    --app-gutter: 0.85rem;
+  }
+
+  .workspace {
+    gap: 1rem;
+  }
+
+  .section-heading,
+  .card-header {
+    gap: 0.85rem;
+  }
+
+  .hero-card__meta {
+    align-items: stretch;
+  }
+
+  .play-button {
+    width: 100%;
+  }
+
+  .guitar-toolbar {
+    justify-items: stretch;
+  }
+
+  .guitar-toolbar__actions {
+    justify-content: flex-start;
+  }
+}
+
 @media (max-width: 720px) {
+  :root {
+    --app-gutter: 0.7rem;
+    --white-key-width: 1.28rem;
+  }
+
   .app-shell {
-    width: min(100vw - 1rem, 100%);
-    padding-top: 1rem;
+    width: min(100vw - (var(--app-gutter) * 2), 100%);
+  }
+
+  .page-header {
+    margin-bottom: 1rem;
   }
 
   .page-header h1 {
-    font-size: 2.6rem;
+    font-size: clamp(2.25rem, 10vw, 2.85rem);
   }
 
   .hero-card,
@@ -486,7 +544,160 @@ button {
     border-radius: 1.15rem;
   }
 
+  .hero-card {
+    padding: 1.15rem;
+  }
+
+  .workspace--landing .hero-card--empty {
+    display: none;
+  }
+
+  .panel {
+    padding: 0.95rem;
+  }
+
+  .hero-card__description,
+  .page-header__lede,
+  .list-card__subtitle,
+  .detail-value {
+    font-size: 0.96rem;
+  }
+
+  .section-note--mobile {
+    display: block;
+  }
+
+  .section-heading,
+  .card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ghost-button,
+  .tag {
+    align-self: flex-start;
+  }
+
+  .chip-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .chip,
+  .play-button {
+    min-height: 3.15rem;
+  }
+
+  .list-card {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .list-stack {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(12rem, 74vw);
+    gap: 0.65rem;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .list-card {
+    min-height: 4.6rem;
+    align-content: start;
+    scroll-snap-align: start;
+  }
+
+  .list-card__subtitle {
+    display: none;
+  }
+
+  .guitar-toolbar__actions {
+    width: 100%;
+  }
+
+  .mini-button {
+    min-height: 2.35rem;
+    padding: 0.45rem 0.8rem;
+  }
+
   .guitar-diagram__cell {
     min-height: 2.4rem;
+  }
+
+  .tab-panel {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.92rem;
+  }
+
+  .keyboard-shell {
+    max-width: calc(100vw - (var(--app-gutter) * 2) - 2rem);
+    padding-bottom: 0.2rem;
+  }
+
+  .key--white {
+    height: 8.75rem;
+  }
+
+  .key--black {
+    height: 5.45rem;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --white-key-width: 1.18rem;
+  }
+
+  .app-shell {
+    padding-bottom: calc(2.25rem + env(safe-area-inset-bottom));
+  }
+
+  .page-header h1 {
+    letter-spacing: -0.04em;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+  }
+
+  .section-note {
+    font-size: 0.9rem;
+  }
+
+  .chip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .list-stack {
+    grid-auto-columns: minmax(11rem, 82vw);
+  }
+
+  .guitar-toolbar__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, auto));
+    gap: 0.5rem;
+  }
+
+  .guitar-toolbar__count {
+    grid-column: 1 / -1;
+  }
+
+  .mini-button {
+    width: 100%;
+  }
+
+  .guitar-diagram__top,
+  .guitar-diagram__labels {
+    gap: 0.25rem;
+  }
+
+  .guitar-diagram__cell {
+    min-height: 2rem;
+  }
+
+  .keyboard-shell {
+    max-width: calc(100vw - (var(--app-gutter) * 2) - 1.4rem);
   }
 }
