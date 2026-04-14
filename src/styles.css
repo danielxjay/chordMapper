@@ -76,6 +76,12 @@ button {
   gap: 1.25rem;
 }
 
+.workspace--landing .control-column,
+.workspace--landing .panel,
+.workspace--landing .hero-card--empty {
+  height: 100%;
+}
+
 .control-column {
   display: grid;
   gap: 1rem;
@@ -413,6 +419,10 @@ button {
   .workspace {
     grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
     align-items: start;
+  }
+
+  .workspace--landing {
+    align-items: stretch;
   }
 
   .instrument-grid {

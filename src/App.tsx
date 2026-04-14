@@ -25,12 +25,9 @@ export default function App() {
           <p className="eyebrow">Chord reference</p>
           <h1>chordMapper</h1>
         </div>
-        <p className="page-header__lede">
-          Browse curated chord variations for guitar and piano, then preview the notes and hear the voicing.
-        </p>
       </header>
 
-      <main className="workspace">
+      <main className={`workspace ${selectedRoot ? '' : 'workspace--landing'}`.trim()}>
         <aside className="control-column">
           {activeStep === 'root' ? (
             <RootNotePicker
@@ -60,11 +57,11 @@ export default function App() {
         ) : (
           <section className="hero-card hero-card--empty">
             <div className="hero-card__copy">
-              <p className="eyebrow">Step 1</p>
+              <p className="eyebrow">Welcome</p>
               <h2>Pick a root note to begin</h2>
               <p className="hero-card__description">
-                Once you choose a note, the app will swap to the chord variation list and unlock the guitar,
-                piano, and playback views.
+                Browse curated chord variations for guitar and piano, then preview the notes and hear the
+                voicing.
               </p>
             </div>
           </section>
