@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CHORD_TYPES, ROOT_NOTES } from './data/music';
 import { findChordTypeById, buildGuitarVoicings, buildPianoVoicing, spellChordNotes } from './lib/chords';
 import { ChordDetail } from './components/ChordDetail';
@@ -13,7 +13,10 @@ export default function App() {
 
   const selectedRoot = ROOT_NOTES.find((root) => root.id === selectedRootId) ?? null;
   const selectedChordType = findChordTypeById(selectedChordTypeId);
-  const guitarVoicings = selectedRoot ? buildGuitarVoicings(selectedRoot, selectedChordType) : [];
+  const guitarVoicings = useMemo(
+    () => (selectedRoot ? buildGuitarVoicings(selectedRoot, selectedChordType) : []),
+    [selectedRoot, selectedChordType],
+  );
 
   useEffect(() => {
     setSelectedGuitarVoicingIndex(0);
