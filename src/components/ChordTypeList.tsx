@@ -30,7 +30,7 @@ export function ChordTypeList({
           </button>
         </div>
       </div>
-      <div className="variation-grid" role="list" aria-label={`${root.displayName} chord variations`}>
+      <div className="variation-grid" role="list" aria-label={`${root.label} chord variations`}>
         {chordTypes.map((chordType) => (
           <button
             key={chordType.id}

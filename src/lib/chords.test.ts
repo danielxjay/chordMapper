@@ -4,7 +4,11 @@ import {
   buildGuitarVoicings,
   buildPianoVoicing,
   buildTabLines,
+  getAlternateChordLabel,
+  getAlternateLongFormChordLabel,
+  getChordLabel,
   getDiagramWindow,
+  getLongFormChordLabel,
   spellChordNotes,
 } from './chords';
 
@@ -17,10 +21,41 @@ describe('spellChordNotes', () => {
   });
 
   it('preserves flat spelling for flat roots', () => {
-    const root = ROOT_NOTES.find((note) => note.id === 'db')!;
+    const root = ROOT_NOTES.find((note) => note.id === 'eb')!;
     const chordType = CHORD_TYPES.find((type) => type.id === 'maj7')!;
 
-    expect(spellChordNotes(root, chordType)).toEqual(['Db', 'F', 'Ab', 'C']);
+    expect(spellChordNotes(root, chordType)).toEqual(['Eb', 'G', 'Bb', 'D']);
+  });
+
+  it('keeps the chosen sharp root spelling for split-note minor chords', () => {
+    const root = ROOT_NOTES.find((note) => note.id === 'db')!;
+    const chordType = CHORD_TYPES.find((type) => type.id === 'min7')!;
+
+    expect(getChordLabel(root, chordType)).toBe('C#min7');
+    expect(spellChordNotes(root, chordType)).toEqual(['C#', 'E', 'G#', 'B']);
+  });
+
+  it('keeps the chosen sharp root spelling for F# major chords', () => {
+    const root = ROOT_NOTES.find((note) => note.id === 'gb')!;
+    const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
+
+    expect(getChordLabel(root, chordType)).toBe('F#maj');
+    expect(spellChordNotes(root, chordType)).toEqual(['F#', 'A#', 'C#']);
+  });
+
+  it('provides the alternate enharmonic label for split-note roots', () => {
+    const root = ROOT_NOTES.find((note) => note.id === 'db')!;
+    const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
+
+    expect(getAlternateChordLabel(root, chordType)).toBe('Dbmaj');
+  });
+
+  it('builds long-form chord names for the selected and alternate spellings', () => {
+    const root = ROOT_NOTES.find((note) => note.id === 'db')!;
+    const chordType = CHORD_TYPES.find((type) => type.id === 'maj')!;
+
+    expect(getLongFormChordLabel(root, chordType)).toBe('C-sharp major');
+    expect(getAlternateLongFormChordLabel(root, chordType)).toBe('D-flat major');
   });
 
   it('spells minor-seven chord tones correctly', () => {

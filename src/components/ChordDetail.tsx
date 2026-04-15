@@ -1,4 +1,10 @@
-import { formatIntervalSet, getChordLabel } from '../lib/chords';
+import {
+  formatIntervalSet,
+  getAlternateChordLabel,
+  getAlternateLongFormChordLabel,
+  getChordLabel,
+  getLongFormChordLabel,
+} from '../lib/chords';
 import type { ChordType, GuitarVoicing, RootNote } from '../types';
 import { GuitarChordDiagram } from './GuitarChordDiagram';
 import { PianoKeyboardDiagram } from './PianoKeyboardDiagram';
@@ -28,13 +34,23 @@ export function ChordDetail({
   onSelectNextGuitarVoicing,
 }: ChordDetailProps) {
   const chordLabel = getChordLabel(root, chordType);
+  const alternateChordLabel = getAlternateChordLabel(root, chordType);
+  const longFormChordLabel = getLongFormChordLabel(root, chordType);
+  const alternateLongFormChordLabel = getAlternateLongFormChordLabel(root, chordType);
 
   return (
     <section className="detail-layout">
       <section className="hero-card">
         <div className="hero-card__copy">
           <p className="eyebrow">Selected chord</p>
-          <h2>{chordLabel}</h2>
+          <h2>
+            {chordLabel}
+            {alternateChordLabel ? <span className="hero-card__alternate"> ({alternateChordLabel})</span> : null}
+          </h2>
+          <p className="hero-card__long-name">
+            {longFormChordLabel}
+            {alternateLongFormChordLabel ? ` (${alternateLongFormChordLabel})` : ''}
+          </p>
           <p className="hero-card__description">{chordType.description}</p>
         </div>
 

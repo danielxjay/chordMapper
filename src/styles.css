@@ -135,6 +135,19 @@ button {
   line-height: 1.6;
 }
 
+.hero-card__alternate {
+  color: var(--muted);
+  font-size: 0.72em;
+  font-weight: 500;
+}
+
+.hero-card__long-name {
+  margin: 0.25rem 0 0;
+  color: var(--accent-deep);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
 .hero-card__meta {
   display: flex;
   flex-wrap: wrap;

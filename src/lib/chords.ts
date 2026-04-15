@@ -21,6 +21,19 @@ const OPEN_STRING_PITCH_CLASS: Record<5 | 6, number> = {
   6: 4,
 };
 
+const CHORD_TYPE_LONG_NAMES: Record<string, string> = {
+  maj: 'major',
+  min: 'minor',
+  '7': 'dominant seventh',
+  maj7: 'major seventh',
+  min7: 'minor seventh',
+  sus2: 'suspended second',
+  sus4: 'suspended fourth',
+  dim: 'diminished',
+  aug: 'augmented',
+  add9: 'add nine',
+};
+
 function formatAccidental(accidental: number): string {
   if (accidental === -1) {
     return 'b';
@@ -39,6 +52,38 @@ function fallbackNoteName(pitchClass: number, preferFlats: boolean): string {
 
 export function getChordLabel(root: RootNote, chordType: ChordType): string {
   return `${root.displayName}${chordType.suffix}`;
+}
+
+export function getAlternateChordLabel(root: RootNote, chordType: ChordType): string | null {
+  if (!root.alternateDisplayName) {
+    return null;
+  }
+
+  return `${root.alternateDisplayName}${chordType.suffix}`;
+}
+
+function formatRootNameLong(name: string): string {
+  if (name.endsWith('#')) {
+    return `${name.slice(0, -1)}-sharp`;
+  }
+
+  if (name.endsWith('b')) {
+    return `${name.slice(0, -1)}-flat`;
+  }
+
+  return name;
+}
+
+export function getLongFormChordLabel(root: RootNote, chordType: ChordType): string {
+  return `${formatRootNameLong(root.displayName)} ${CHORD_TYPE_LONG_NAMES[chordType.id] ?? chordType.label.toLowerCase()}`;
+}
+
+export function getAlternateLongFormChordLabel(root: RootNote, chordType: ChordType): string | null {
+  if (!root.alternateDisplayName) {
+    return null;
+  }
+
+  return `${formatRootNameLong(root.alternateDisplayName)} ${CHORD_TYPE_LONG_NAMES[chordType.id] ?? chordType.label.toLowerCase()}`;
 }
 
 export function spellChordNotes(root: RootNote, chordType: ChordType): string[] {

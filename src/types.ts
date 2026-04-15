@@ -4,6 +4,7 @@ export type RootNote = {
   id: string;
   label: string;
   displayName: string;
+  alternateDisplayName?: string;
   pitchClass: number;
   letter: LetterName;
   accidental: -1 | 0 | 1;

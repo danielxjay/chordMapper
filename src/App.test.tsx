@@ -8,8 +8,8 @@ describe('App', () => {
 
     render(<App />);
 
-    expect(screen.getByRole('heading', { name: /pick a root note to begin/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Pick a root note' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Map chords across guitar and piano' })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'G' }));
 
@@ -21,7 +21,7 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: /^Gmin\b/i }));
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Gmin' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: /^Gmin\b/i })).toBeInTheDocument();
     expect(screen.getAllByText('G • Bb • D').length).toBeGreaterThan(0);
 
     await user.click(screen.getByRole('button', { name: /change note/i }));
@@ -44,5 +44,22 @@ describe('App', () => {
 
     expect(screen.getByText('Barre shape')).toBeInTheDocument();
     expect(screen.getByText('Voicing 2 of 3')).toBeInTheDocument();
+  });
+
+  it('keeps the selected root spelling consistent for split-note roots', async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'C#' }));
+
+    expect(screen.getByRole('button', { name: /^C#maj\b/i })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /^C#min\b/i }));
+
+    expect(screen.getByRole('heading', { level: 2, name: /^C#min\b/i })).toBeInTheDocument();
+    expect(screen.getByText('(Dbmin)')).toBeInTheDocument();
+    expect(screen.getByText('C-sharp minor (D-flat minor)')).toBeInTheDocument();
+    expect(screen.getAllByText('C# • E • G#').length).toBeGreaterThan(0);
   });
 });
