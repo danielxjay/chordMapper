@@ -32,13 +32,7 @@ export function GuitarChordDiagram({
         <span className="tag">{voicingLabel}</span>
       </div>
 
-      <div className="guitar-diagram">
-        {baseFret > 1 ? (
-          <p className="fine-print guitar-diagram__window-note">
-            Diagram shows frets {baseFret} to {baseFret + fretCount - 1}.
-          </p>
-        ) : null}
-
+      <div className={`guitar-diagram ${baseFret > 1 ? 'guitar-diagram--offset' : ''}`}>
         {/* The tab output below is the accessible text form; the visual diagram is decorative. */}
         <div className="guitar-diagram__top" aria-hidden="true">
           {strings.map((fret, index) => (
@@ -48,7 +42,7 @@ export function GuitarChordDiagram({
           ))}
         </div>
 
-        <div className={`guitar-diagram__frame ${baseFret > 1 ? 'guitar-diagram__frame--offset' : ''}`} aria-hidden="true">
+        <div className="guitar-diagram__frame" aria-hidden="true">
           {baseFret > 1 ? <span className="guitar-diagram__base-fret">{baseFret}fr</span> : null}
           <div
             className="guitar-diagram__grid"
@@ -59,11 +53,12 @@ export function GuitarChordDiagram({
                 const displayFret = baseFret + rowIndex;
                 const isActive = fret !== null && fret > 0 && fret === displayFret;
                 const isNutRow = baseFret === 1 && rowIndex === 0;
+                const isTopRow = rowIndex === 0;
 
                 return (
                   <div
                     key={`${stringIndex}-${rowIndex}`}
-                    className={`guitar-diagram__cell ${isNutRow ? 'guitar-diagram__cell--nut' : ''}`}
+                    className={`guitar-diagram__cell ${isNutRow ? 'guitar-diagram__cell--nut' : isTopRow ? 'guitar-diagram__cell--top' : ''}`}
                   >
                     {isActive ? <span className="guitar-diagram__dot" /> : null}
                   </div>

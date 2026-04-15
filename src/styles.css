@@ -384,16 +384,16 @@ button {
   margin-bottom: 0.9rem;
 }
 
-.guitar-diagram__window-note {
-  margin: 0 0 0.15rem;
-}
-
 .guitar-diagram__top,
 .guitar-diagram__labels {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   justify-items: center;
+}
+
+.guitar-diagram__top {
+  min-height: 1.2rem;
 }
 
 .guitar-diagram__marker,
@@ -407,7 +407,9 @@ button {
   position: relative;
 }
 
-.guitar-diagram__frame--offset {
+.guitar-diagram--offset .guitar-diagram__top,
+.guitar-diagram--offset .guitar-diagram__frame,
+.guitar-diagram--offset .guitar-diagram__labels {
   padding-left: 2.35rem;
 }
 
@@ -436,6 +438,10 @@ button {
 
 .guitar-diagram__cell:nth-child(6n + 1) {
   border-left: 1px solid rgba(77, 52, 34, 0.22);
+}
+
+.guitar-diagram__cell--top {
+  border-top: 1px solid rgba(77, 52, 34, 0.22);
 }
 
 .guitar-diagram__cell--nut {
