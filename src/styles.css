@@ -1,20 +1,33 @@
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
   --bg: #f4efe6;
+  --bg-top: #f9f4ec;
   --panel: #fffcf6;
   --panel-strong: #fffdf8;
   --line: rgba(77, 52, 34, 0.15);
+  --line-hover: rgba(141, 61, 30, 0.3);
   --text: #2f241b;
   --muted: #786352;
   --accent: #d86d3c;
   --accent-deep: #8d3d1e;
   --accent-soft: #f6d9c7;
   --shadow: 0 24px 60px rgba(93, 58, 28, 0.14);
+  --surface: rgba(255, 251, 246, 0.9);
+  --surface-active: linear-gradient(145deg, rgba(216, 109, 60, 0.18), rgba(255, 251, 246, 0.95));
+  --grid-line: rgba(77, 52, 34, 0.22);
+  --grid-line-nut: rgba(77, 52, 34, 0.45);
+  --key-border: rgba(77, 52, 34, 0.18);
+  --key-white-bg: linear-gradient(180deg, #fffdfa, #f3eadc);
+  --key-black-bg: linear-gradient(180deg, #3e332d, #1d1714);
+  --tab-bg: rgba(49, 36, 27, 0.94);
+  --tab-text: #ffe7d5;
+  --label-passive: rgba(47, 36, 27, 0.25);
+  --label-octave: rgba(47, 36, 27, 0.2);
   --white-key-width: clamp(1.15rem, 3.8vw, 2rem);
   --app-gutter: 1rem;
   font-family: 'Trebuchet MS', 'Gill Sans', 'Segoe UI', sans-serif;
   color: var(--text);
-  background: linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
 }
 
 * {
@@ -42,9 +55,9 @@ button {
 }
 
 .page-header {
-  display: grid;
-  gap: 1rem;
-  align-items: end;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 
@@ -219,7 +232,7 @@ button {
 .ghost-button {
   border: 1px solid var(--line);
   border-radius: 1rem;
-  background: rgba(255, 251, 246, 0.9);
+  background: var(--surface);
   color: var(--text);
   transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
 }
@@ -235,12 +248,12 @@ button {
 .play-button:hover,
 .ghost-button:hover {
   transform: translateY(1px);
-  border-color: rgba(141, 61, 30, 0.3);
+  border-color: var(--line-hover);
 }
 
 .chip--active,
 .list-card--active {
-  background: linear-gradient(145deg, rgba(216, 109, 60, 0.18), rgba(255, 251, 246, 0.95));
+  background: var(--surface-active);
   border-color: rgba(141, 61, 30, 0.44);
   box-shadow: inset 0 0 0 1px rgba(141, 61, 30, 0.08);
 }
@@ -282,7 +295,7 @@ button {
   padding: 0.75rem;
   border: 1px solid var(--line);
   border-radius: 1rem;
-  background: rgba(255, 251, 246, 0.9);
+  background: var(--surface);
   color: var(--text);
   font: inherit;
   font-weight: 700;
@@ -291,11 +304,11 @@ button {
 
 .variation-chip:hover {
   transform: translateY(1px);
-  border-color: rgba(141, 61, 30, 0.3);
+  border-color: var(--line-hover);
 }
 
 .variation-chip--active {
-  background: linear-gradient(145deg, rgba(216, 109, 60, 0.18), rgba(255, 251, 246, 0.95));
+  background: var(--surface-active);
   border-color: rgba(141, 61, 30, 0.44);
   box-shadow: inset 0 0 0 1px rgba(141, 61, 30, 0.08);
 }
@@ -365,7 +378,7 @@ button {
   padding: 0.4rem 0.7rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 251, 246, 0.9);
+  background: var(--surface);
   color: var(--accent-deep);
   font: inherit;
   font-size: 0.85rem;
@@ -375,7 +388,32 @@ button {
 
 .mini-button:hover {
   transform: translateY(1px);
-  border-color: rgba(141, 61, 30, 0.3);
+  border-color: var(--line-hover);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--accent-deep);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(1px);
+  border-color: var(--line-hover);
+}
+
+.theme-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .guitar-diagram {
@@ -432,20 +470,20 @@ button {
 .guitar-diagram__cell {
   position: relative;
   min-height: 3rem;
-  border-right: 1px solid rgba(77, 52, 34, 0.22);
-  border-bottom: 1px solid rgba(77, 52, 34, 0.22);
+  border-right: 1px solid var(--grid-line);
+  border-bottom: 1px solid var(--grid-line);
 }
 
 .guitar-diagram__cell:nth-child(6n + 1) {
-  border-left: 1px solid rgba(77, 52, 34, 0.22);
+  border-left: 1px solid var(--grid-line);
 }
 
 .guitar-diagram__cell--top {
-  border-top: 1px solid rgba(77, 52, 34, 0.22);
+  border-top: 1px solid var(--grid-line);
 }
 
 .guitar-diagram__cell--nut {
-  border-top: 4px solid rgba(77, 52, 34, 0.45);
+  border-top: 4px solid var(--grid-line-nut);
 }
 
 .guitar-diagram__dot {
@@ -463,8 +501,8 @@ button {
   margin: 0;
   padding: 0.85rem 1rem;
   border-radius: 1rem;
-  background: rgba(49, 36, 27, 0.94);
-  color: #ffe7d5;
+  background: var(--tab-bg);
+  color: var(--tab-text);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -501,14 +539,14 @@ button {
 }
 
 .key {
-  border: 1px solid rgba(77, 52, 34, 0.18);
+  border: 1px solid var(--key-border);
   border-radius: 0 0 0.45rem 0.45rem;
 }
 
 .key--white {
   position: relative;
   height: 10.5rem;
-  background: linear-gradient(180deg, #fffdfa, #f3eadc);
+  background: var(--key-white-bg);
 }
 
 .key__label {
@@ -524,7 +562,7 @@ button {
 }
 
 .key__label--passive {
-  color: rgba(47, 36, 27, 0.25);
+  color: var(--label-passive);
 }
 
 .key__label--active {
@@ -545,7 +583,7 @@ button {
   text-align: center;
   font-size: 0.5rem;
   font-weight: 600;
-  color: rgba(47, 36, 27, 0.2);
+  color: var(--label-octave);
   line-height: 1;
   pointer-events: none;
 }
@@ -555,7 +593,7 @@ button {
   top: 0;
   width: calc(var(--white-key-width) * 0.62);
   height: 6.4rem;
-  background: linear-gradient(180deg, #3e332d, #1d1714);
+  background: var(--key-black-bg);
   border-color: rgba(255, 255, 255, 0.04);
   transform: translateX(calc(var(--white-key-width) * -0.31));
 }
@@ -790,4 +828,45 @@ button {
   .keyboard-shell {
     max-width: calc(100vw - (var(--app-gutter) * 2) - 1.4rem);
   }
+}
+
+/* ── Dark mode ───────────────────────────────────────────────────── */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #18120e;
+  --bg-top: #1f1812;
+  --panel: #201a13;
+  --panel-strong: #261f17;
+  --line: rgba(255, 200, 150, 0.1);
+  --line-hover: rgba(240, 152, 98, 0.3);
+  --text: #ede3d5;
+  --muted: #9e8878;
+  --accent: #e07848;
+  --accent-deep: #f09862;
+  --accent-soft: rgba(224, 120, 72, 0.2);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --surface: rgba(36, 28, 20, 0.9);
+  --surface-active: linear-gradient(145deg, rgba(224, 120, 72, 0.22), rgba(36, 28, 20, 0.95));
+  --grid-line: rgba(255, 190, 140, 0.13);
+  --grid-line-nut: rgba(255, 190, 140, 0.4);
+  --key-border: rgba(255, 200, 150, 0.1);
+  --key-white-bg: linear-gradient(180deg, #3a3028, #2c2318);
+  --key-black-bg: linear-gradient(180deg, #181410, #0d0b08);
+  --tab-bg: rgba(7, 4, 2, 0.97);
+  --tab-text: #f0d5b8;
+  --label-passive: rgba(255, 220, 180, 0.2);
+  --label-octave: rgba(255, 220, 180, 0.15);
+}
+
+[data-theme="dark"] .hero-card {
+  background:
+    linear-gradient(145deg, rgba(50, 38, 26, 0.7), rgba(32, 24, 16, 0.6)),
+    var(--panel-strong);
+}
+
+[data-theme="dark"] .instrument-grid .panel {
+  background:
+    linear-gradient(180deg, rgba(38, 30, 22, 0.5), rgba(28, 22, 15, 0.7)),
+    var(--panel);
 }
