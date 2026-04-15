@@ -29,22 +29,7 @@ export function GuitarChordDiagram({
           <p className="eyebrow">Guitar</p>
           <h3>{chordLabel}</h3>
         </div>
-        <div className="guitar-toolbar">
-          <span className="tag">{voicingLabel}</span>
-          {voicingCount > 1 ? (
-            <div className="guitar-toolbar__actions">
-              <span className="fine-print guitar-toolbar__count">
-                Voicing {voicingIndex + 1} of {voicingCount}
-              </span>
-              <button type="button" className="mini-button" onClick={onPrevious} aria-label="Previous guitar voicing">
-                Prev
-              </button>
-              <button type="button" className="mini-button" onClick={onNext} aria-label="Next guitar voicing">
-                Next
-              </button>
-            </div>
-          ) : null}
-        </div>
+        <span className="tag">{voicingLabel}</span>
       </div>
 
       <div className="guitar-diagram">
@@ -94,6 +79,18 @@ export function GuitarChordDiagram({
           ))}
         </div>
       </div>
+
+      {voicingCount > 1 ? (
+        <div className="voicing-nav">
+          <button type="button" className="mini-button" onClick={onPrevious} aria-label="Previous guitar voicing">
+            Prev
+          </button>
+          <span className="fine-print">Voicing {voicingIndex + 1} of {voicingCount}</span>
+          <button type="button" className="mini-button" onClick={onNext} aria-label="Next guitar voicing">
+            Next
+          </button>
+        </div>
+      ) : null}
 
       <div className="detail-block">
         <pre className="tab-panel" aria-label={`${chordLabel} guitar tab`}>
