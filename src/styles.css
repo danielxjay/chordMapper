@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
   --bg: #f4efe6;
-  --panel: rgba(255, 252, 246, 0.86);
+  --panel: #fffcf6;
   --panel-strong: #fffdf8;
   --line: rgba(77, 52, 34, 0.15);
   --text: #2f241b;
@@ -14,10 +14,7 @@
   --app-gutter: 1rem;
   font-family: 'Trebuchet MS', 'Gill Sans', 'Segoe UI', sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(circle at top left, rgba(216, 109, 60, 0.16), transparent 30%),
-    radial-gradient(circle at top right, rgba(223, 193, 127, 0.18), transparent 24%),
-    linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
+  background: linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
 }
 
 * {
@@ -102,7 +99,6 @@ button {
   border: 1px solid var(--line);
   border-radius: 1.4rem;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
   min-width: 0;
 }
 
@@ -233,7 +229,7 @@ button {
 .list-card:hover,
 .play-button:hover,
 .ghost-button:hover {
-  transform: translateY(-1px);
+  transform: translateY(1px);
   border-color: rgba(141, 61, 30, 0.3);
 }
 
@@ -289,7 +285,7 @@ button {
 }
 
 .variation-chip:hover {
-  transform: translateY(-1px);
+  transform: translateY(1px);
   border-color: rgba(141, 61, 30, 0.3);
 }
 
@@ -385,7 +381,7 @@ button {
 }
 
 .mini-button:hover {
-  transform: translateY(-1px);
+  transform: translateY(1px);
   border-color: rgba(141, 61, 30, 0.3);
 }
 
