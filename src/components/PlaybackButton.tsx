@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { playChord } from '../lib/audio';
+import { playChord, releaseAudioSession } from '../lib/audio';
 
 type PlaybackButtonProps = {
   midiNotes: number[];
@@ -18,7 +18,10 @@ export function PlaybackButton({ midiNotes }: PlaybackButtonProps) {
     try {
       await playChord(midiNotes);
       // 1400ms matches the 1.35s audio duration plus a small buffer for the fade-out.
-      window.setTimeout(() => setIsPlaying(false), 1400);
+      window.setTimeout(() => {
+        setIsPlaying(false);
+        releaseAudioSession();
+      }, 1400);
     } catch {
       setIsPlaying(false);
     }

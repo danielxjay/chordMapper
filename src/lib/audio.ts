@@ -1,15 +1,19 @@
 let audioContext: AudioContext | null = null;
 
-function requestPlaybackAudioSession() {
+function setAudioSessionType(type: 'playback' | 'auto') {
   if (typeof navigator === 'undefined' || !navigator.audioSession) {
     return;
   }
 
   try {
-    navigator.audioSession.type = 'transient';
+    navigator.audioSession.type = type;
   } catch {
-    // Ignore unsupported or rejected audio-session hints and continue with playback.
+    // Ignore unsupported or rejected audio-session hints.
   }
+}
+
+export function releaseAudioSession() {
+  setAudioSessionType('auto');
 }
 
 function getAudioContext(): AudioContext | null {
@@ -35,7 +39,7 @@ function midiToFrequency(midiNote: number): number {
 }
 
 export async function playChord(midiNotes: number[]): Promise<void> {
-  requestPlaybackAudioSession();
+  setAudioSessionType('playback');
 
   const context = getAudioContext();
 
