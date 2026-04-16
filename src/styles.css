@@ -706,8 +706,7 @@ button {
   }
 
   .card-header {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
   }
 
   .ghost-button,

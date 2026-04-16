@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   formatIntervalSet,
-  getAlternateChordLabel,
   getChordLabel,
   getLongFormChordLabel,
 } from '../lib/chords';
@@ -46,7 +45,6 @@ export function ChordDetail({
   onSelectChord,
 }: ChordDetailProps) {
   const chordLabel = getChordLabel(root, chordType);
-  const alternateChordLabel = getAlternateChordLabel(root, chordType);
   const longFormChordLabel = getLongFormChordLabel(root, chordType);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -72,12 +70,13 @@ export function ChordDetail({
       <div className="chord-overview">
         <section className="hero-card">
           <div className="hero-card__copy">
-            <p className="eyebrow">Selected chord</p>
-            <h2>
-              {chordLabel}
-              {alternateChordLabel ? <span className="hero-card__alternate"> ({alternateChordLabel})</span> : null}
-            </h2>
-            <p className="hero-card__long-name">{longFormChordLabel}</p>
+            <div className="card-header">
+              <div>
+                <p className="eyebrow">Selected chord</p>
+                <h2>{longFormChordLabel}</h2>
+              </div>
+              <span className="tag">{chordLabel}</span>
+            </div>
             <p className="hero-card__description">{chordType.description}</p>
           </div>
 

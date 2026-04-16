@@ -27,7 +27,7 @@ export function GuitarChordDiagram({
       <div className="card-header">
         <div>
           <p className="eyebrow">Guitar</p>
-          <h3>{chordLabel}</h3>
+          <h3>Chord diagram</h3>
         </div>
         <span className="tag">{voicingLabel}</span>
       </div>
