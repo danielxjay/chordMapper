@@ -24,7 +24,7 @@ export function ChordTypeList({
           <h2>Choose a variation</h2>
         </div>
         <div className="section-actions">
-          <span className="tag">{root.label}</span>
+          <button type="button" className="tag" onClick={onBack}>{root.label}</button>
           <button type="button" className="ghost-button" onClick={onBack}>
             Change note
           </button>

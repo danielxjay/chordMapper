@@ -324,6 +324,14 @@ button {
     var(--panel);
 }
 
+button.tag {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -990,7 +998,7 @@ button {
   --muted: #9e8878;
   --accent: #e07848;
   --accent-deep: #f09862;
-  --accent-soft: rgba(224, 120, 72, 0.2);
+  --accent-soft: #3d2416;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   --surface: rgba(36, 28, 20, 0.9);
   --surface-active: linear-gradient(145deg, rgba(224, 120, 72, 0.22), rgba(36, 28, 20, 0.95));
