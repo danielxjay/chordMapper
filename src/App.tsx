@@ -76,6 +76,12 @@ export default function App() {
     setActiveStep('variation');
   }
 
+  function handleChordSelect(rootId: string, chordTypeId: string) {
+    setSelectedRootId(rootId);
+    setSelectedChordTypeId(chordTypeId);
+    setActiveStep('variation');
+  }
+
   return (
     <div className="app-shell">
       <header className="page-header">
@@ -127,6 +133,7 @@ export default function App() {
               )
             }
             pianoVoicing={buildPianoVoicing(selectedRoot, selectedChordType)}
+            onSelectChord={handleChordSelect}
           />
         ) : (
           <section className="hero-card hero-card--empty">
